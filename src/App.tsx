@@ -3,6 +3,8 @@ import { useRoutes, Routes, Route } from "react-router-dom";
 import Home from "./components/home";
 import DevicesPage from "./components/devices/DevicesPage";
 import DeviceDetailsPage from "./components/devices/DeviceDetailsPage";
+import DataTable from "./components/data-explorer/DataTable";
+import MainLayout from "./components/layout/MainLayout";
 import routes from "tempo-routes";
 
 function App() {
@@ -11,9 +13,52 @@ function App() {
       <>
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/devices" element={<DevicesPage />} />
-          <Route path="/devices/:deviceId" element={<DeviceDetailsPage />} />
+          <Route
+            path="/"
+            element={
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/devices"
+            element={
+              <MainLayout>
+                <DevicesPage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/devices/:deviceId"
+            element={
+              <MainLayout>
+                <DeviceDetailsPage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/data-explorer"
+            element={
+              <MainLayout>
+                <DataTable />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <MainLayout>
+                <div className="p-6">
+                  <h1 className="text-2xl font-bold">Settings</h1>
+                  <p className="mt-4 text-muted-foreground">
+                    System settings and configuration options will be displayed
+                    here.
+                  </p>
+                </div>
+              </MainLayout>
+            }
+          />
         </Routes>
       </>
     </Suspense>

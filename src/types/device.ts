@@ -13,4 +13,6 @@ export interface Device {
   owner?: string; // Username of the device owner
   serialNumber: string;
   firmwareVersion: string;
+  purchaseDate?: string; // ISO date string
+  shipDate?: string; // ISO date string
 }
