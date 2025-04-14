@@ -76,7 +76,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <Link to="/data-explorer">
               <div className="flex items-center gap-2">
                 <Database className="h-4 w-4" />
-                <span>Data Explorer</span>
+                <span>Labs</span>
               </div>
             </Link>
           </Button>

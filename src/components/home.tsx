@@ -15,7 +15,9 @@ export default function HomePage() {
       <div className="grid grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Total Devices</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total nunc. Devices
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">248</div>
@@ -26,7 +28,7 @@ export default function HomePage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Active Devices
+              Active nunc. Devices
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -37,7 +39,9 @@ export default function HomePage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Brews Today</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Espresso Shots Today
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,842</div>
@@ -49,17 +53,16 @@ export default function HomePage() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Alerts</CardTitle>
+            <CardTitle className="text-sm font-medium">Shot Accuracy</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">7</div>
+            <div className="text-2xl font-bold">91.2%</div>
             <p className="text-xs text-muted-foreground">
-              3 critical, 4 warnings
+              % shots using dynGG that had a peak pressure between 6 and 9 bars
             </p>
           </CardContent>
         </Card>
       </div>
-
       <div className="grid grid-cols-3 gap-6">
         <div className="col-span-2">
           <DashboardOverview />
