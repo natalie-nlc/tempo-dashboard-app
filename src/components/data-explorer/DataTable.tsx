@@ -20,8 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import FilterSection, { FilterValues } from "./FilterSection";
 
-// Define the BrewEvent interface for type checking
-export interface BrewEvent {
+interface BrewEvent {
   eventId: string;
   deviceId: string;
   username: string;
@@ -31,8 +30,12 @@ export interface BrewEvent {
   peakPressure: number;
 }
 
-// Mock data array defined inside the component file but not exported directly
-const MOCK_BREW_EVENTS: BrewEvent[] = [
+interface DataTableProps {
+  data?: BrewEvent[];
+  isLoading?: boolean;
+}
+
+const mockData: BrewEvent[] = [
   {
     eventId: "3465921786324",
     deviceId: "56098276526738773",
@@ -125,16 +128,8 @@ const MOCK_BREW_EVENTS: BrewEvent[] = [
   },
 ];
 
-// Export mockData for backward compatibility with other components
-export const mockData = [...MOCK_BREW_EVENTS];
-
-interface DataTableProps {
-  data?: BrewEvent[];
-  isLoading?: boolean;
-}
-
 const DataTable: React.FC<DataTableProps> = ({
-  data = MOCK_BREW_EVENTS,
+  data = mockData,
   isLoading = false,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);

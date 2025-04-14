@@ -14,203 +14,11 @@ import { Device } from "@/types/device";
 
 // Import mock data for development
 import { mockDevices } from "./DeviceTable";
-import DeviceHistory, { DeviceEvent } from "./DeviceHistory";
-import DeviceInformation from "./DeviceInformation";
-import DeviceEventCard from "./DeviceEventCard";
-import { BrewEvent } from "@/components/data-explorer/DataTable";
-
-// Import mock data from DataTable for development
-import { mockData as dataExplorerMockData } from "@/components/data-explorer/DataTable";
-
-// Convert DataTable BrewEvents to DeviceEvents
-const convertBrewEventToDeviceEvent = (brewEvent: BrewEvent): DeviceEvent => {
-  return {
-    id: brewEvent.eventId,
-    deviceId: brewEvent.deviceId,
-    eventType: "brew",
-    timestamp: brewEvent.timestamp,
-    description: `Brew event with peak pressure ${brewEvent.peakPressure}`,
-    details: {
-      username: brewEvent.username,
-      roastId: brewEvent.roastId,
-      recipeId: brewEvent.recipeId,
-      peakPressure: `${brewEvent.peakPressure} bar`,
-    },
-  };
-};
-
-// Mock device events for development
-const mockDeviceEvents: DeviceEvent[] = [
-  // Original mock events
-  {
-    id: "evt-001",
-    deviceId: "1",
-    eventType: "connection",
-    timestamp: "2023-06-15T08:30:00Z",
-    description: "Device connected",
-  },
-  {
-    id: "evt-003",
-    deviceId: "1",
-    eventType: "maintenance",
-    timestamp: "2023-06-14T14:00:00Z",
-    description: "Water filter replaced",
-  },
-  {
-    id: "evt-004",
-    deviceId: "1",
-    eventType: "error",
-    timestamp: "2023-06-13T10:45:00Z",
-    description: "Water tank empty",
-  },
-  {
-    id: "evt-005",
-    deviceId: "2",
-    eventType: "update",
-    timestamp: "2023-06-14T17:30:00Z",
-    description: "Firmware updated to v1.1.8",
-  },
-  {
-    id: "evt-006",
-    deviceId: "2",
-    eventType: "error",
-    timestamp: "2023-06-14T17:45:00Z",
-    description: "Temperature sensor malfunction",
-  },
-
-  // New mock events for BR-2023-1201
-  {
-    id: "evt-101",
-    deviceId: "BR-2023-1201",
-    eventType: "brew",
-    timestamp: "2023-10-15T09:30:00Z",
-    description: "Espresso brew completed",
-    details: {
-      recipeId: "ESP-001",
-      brewTime: "25s",
-      waterTemperature: "93°C",
-      pressureProfile: "9 bar",
-      coffeeWeight: "18g",
-      extractionWeight: "36g",
-    },
-  },
-  {
-    id: "evt-102",
-    deviceId: "BR-2023-1201",
-    eventType: "brew",
-    timestamp: "2023-10-15T14:45:00Z",
-    description: "Americano brew completed",
-    details: {
-      recipeId: "AMR-002",
-      brewTime: "30s",
-      waterTemperature: "94°C",
-      pressureProfile: "9 bar",
-      coffeeWeight: "18g",
-      extractionWeight: "40g",
-    },
-  },
-  {
-    id: "evt-103",
-    deviceId: "BR-2023-1201",
-    eventType: "maintenance",
-    timestamp: "2023-10-14T18:00:00Z",
-    description: "Descaling completed",
-    details: {
-      maintenanceType: "Descaling",
-      technician: "System",
-      duration: "45 minutes",
-    },
-  },
-
-  // New mock events for GR-2023-3405
-  {
-    id: "evt-201",
-    deviceId: "GR-2023-3405",
-    eventType: "grind",
-    timestamp: "2023-10-15T09:25:00Z",
-    description: "Espresso grind completed",
-    details: {
-      grindSize: "Fine",
-      coffeeWeight: "18g",
-      grindTime: "8.5s",
-      beanType: "Ethiopian Yirgacheffe",
-    },
-  },
-  {
-    id: "evt-202",
-    deviceId: "GR-2023-3405",
-    eventType: "grind",
-    timestamp: "2023-10-15T14:40:00Z",
-    description: "Filter grind completed",
-    details: {
-      grindSize: "Medium",
-      coffeeWeight: "22g",
-      grindTime: "10.2s",
-      beanType: "Colombian Supremo",
-    },
-  },
-  {
-    id: "evt-203",
-    deviceId: "GR-2023-3405",
-    eventType: "error",
-    timestamp: "2023-10-14T16:30:00Z",
-    description: "Grinder jam detected",
-    details: {
-      errorCode: "GR-JAM-001",
-      resolution: "Auto-cleared after retry",
-    },
-  },
-
-  // New mock events for BR-PROTO-1305
-  {
-    id: "evt-301",
-    deviceId: "BR-PROTO-1305",
-    eventType: "brew",
-    timestamp: "2023-10-15T10:15:00Z",
-    description: "Prototype pressure profiling test",
-    details: {
-      testId: "PROTO-TEST-42",
-      pressureProfile: "Variable (6-9-6 bar)",
-      waterTemperature: "92°C",
-      result: "Successful",
-      notes: "Flavor profile improved with variable pressure",
-    },
-  },
-  {
-    id: "evt-302",
-    deviceId: "BR-PROTO-1305",
-    eventType: "brew",
-    timestamp: "2023-10-15T11:30:00Z",
-    description: "Prototype temperature stability test",
-    details: {
-      testId: "PROTO-TEST-43",
-      temperatureVariation: "±0.3°C",
-      brewTime: "28s",
-      result: "Successful",
-      notes: "Temperature stability within target range",
-    },
-  },
-  {
-    id: "evt-303",
-    deviceId: "BR-PROTO-1305",
-    eventType: "update",
-    timestamp: "2023-10-14T09:00:00Z",
-    description: "Prototype firmware updated",
-    details: {
-      version: "0.9.5-beta",
-      changes:
-        "Improved pressure sensor calibration, Added new temperature control algorithm",
-      updateTime: "3 minutes",
-    },
-  },
-];
 
 const DeviceDetailsPage: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
   const [device, setDevice] = useState<Device | null>(null);
-  const [deviceEvents, setDeviceEvents] = useState<DeviceEvent[]>([]);
   const [loading, setLoading] = useState(true);
-  const [eventsLoading, setEventsLoading] = useState(true);
 
   useEffect(() => {
     // In a real application, this would be an API call
@@ -230,44 +38,7 @@ const DeviceDetailsPage: React.FC = () => {
       }
     };
 
-    const fetchDeviceEvents = () => {
-      setEventsLoading(true);
-      try {
-        // In a real application, this would be an API call
-        // For now, we'll combine mock events and converted brew events from DataTable
-
-        // Get events from mockDeviceEvents that match the deviceId
-        const deviceSpecificEvents = mockDeviceEvents.filter(
-          (event) => event.deviceId === deviceId,
-        );
-        console.log("Device specific events:", deviceSpecificEvents);
-
-        // Convert brew events from DataTable to device events
-        const brewEvents = dataExplorerMockData
-          .filter((event) => event.deviceId === deviceId)
-          .map(convertBrewEventToDeviceEvent);
-        console.log("Brew events:", brewEvents);
-
-        // Combine all events
-        const allEvents = [...deviceSpecificEvents, ...brewEvents];
-
-        // Sort by timestamp, most recent first
-        allEvents.sort(
-          (a, b) =>
-            new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
-        );
-
-        console.log("All events after sorting:", allEvents);
-        setDeviceEvents(allEvents);
-      } catch (error) {
-        console.error("Error fetching device events:", error);
-      } finally {
-        setEventsLoading(false);
-      }
-    };
-
     fetchDevice();
-    fetchDeviceEvents();
   }, [deviceId]);
 
   if (loading) {
@@ -286,29 +57,6 @@ const DeviceDetailsPage: React.FC = () => {
       </div>
     );
   }
-
-  // Reusable component for rendering device events
-  const DeviceEventsContent = () => (
-    <>
-      {eventsLoading ? (
-        <div className="p-4">Loading event history...</div>
-      ) : deviceEvents.length === 0 ? (
-        <div className="p-4 text-center text-muted-foreground">
-          No events found for this device.
-        </div>
-      ) : (
-        <>
-          <DeviceHistory events={deviceEvents} />
-          <div className="mt-6 space-y-4">
-            <h3 className="text-lg font-medium">Detailed Event Cards</h3>
-            {deviceEvents.map((event) => (
-              <DeviceEventCard key={event.id} event={event} />
-            ))}
-          </div>
-        </>
-      )}
-    </>
-  );
 
   return (
     <div className="space-y-6 p-6">
@@ -332,63 +80,130 @@ const DeviceDetailsPage: React.FC = () => {
         </TabsList>
 
         <TabsContent value="overview" className="mt-6">
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle>Device Information</CardTitle>
                 <CardDescription>
-                  Comprehensive information about this device
+                  Basic information about this device
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <DeviceInformation device={device} />
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">
+                      Device ID
+                    </p>
+                    <p className="font-mono">{device.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">
+                      Serial Number
+                    </p>
+                    <p className="font-mono">{device.serialNumber}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Model</p>
+                    <div
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        device.model === "prototype"
+                          ? "bg-purple-100 text-purple-800"
+                          : device.model === "pre-series"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {device.model}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500">Status</p>
+                    <div
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        device.status === "online"
+                          ? "bg-green-100 text-green-800"
+                          : device.status === "warning"
+                            ? "bg-red-100 text-red-800"
+                            : device.status === "maintenance"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      {device.status}
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Device History</CardTitle>
+                <CardTitle>Home Location</CardTitle>
                 <CardDescription>
-                  Recent events and activities for this device
+                  Where this device is being used
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <DeviceEventsContent />
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Town</p>
+                  <p>{device.location}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Coordinates
+                  </p>
+                  <p className="font-mono">
+                    {device.coordinates[0]}, {device.coordinates[1]}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Customer & Connection</CardTitle>
+                <CardDescription>Home user information</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Customer Name
+                  </p>
+                  <p>{device.owner || "—"}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Last Connected
+                  </p>
+                  <p>{new Date(device.lastConnected).toLocaleString()}</p>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">
+                    Firmware Version
+                  </p>
+                  <p className="font-mono">{device.firmwareVersion}</p>
+                </div>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
         <TabsContent value="usage" className="mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle>Device History</CardTitle>
-                <CardDescription>
-                  Recent events and activities for this device
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <DeviceEventsContent />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Usage Insights</CardTitle>
-                <CardDescription>
-                  Performance metrics and usage patterns for this device
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[300px] flex items-center justify-center border rounded-md">
-                  <p className="text-muted-foreground">
-                    Usage data visualization will appear here
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Usage Insights</CardTitle>
+              <CardDescription>
+                Performance metrics and usage patterns for this device
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px] flex items-center justify-center border rounded-md">
+                <p className="text-muted-foreground">
+                  Usage data visualization will appear here
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="admin" className="mt-6">
