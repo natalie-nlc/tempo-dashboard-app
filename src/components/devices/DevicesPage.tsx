@@ -13,19 +13,7 @@ interface DevicesPageProps {}
 
 const DevicesPage: React.FC<DevicesPageProps> = () => {
   return (
-    <div className="space-y-6">
-      <Card className="col-span-3">
-        <CardHeader>
-          <CardTitle>Device Locations</CardTitle>
-          <CardDescription>
-            Geographic distribution of all connected devices in your ecosystem
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 h-[600px]">
-          <DevicesMap />
-        </CardContent>
-      </Card>
-
+    <div className="space-y-6 p-6">
       <Card>
         <CardHeader>
           <CardTitle>Device Management</CardTitle>
@@ -35,6 +23,18 @@ const DevicesPage: React.FC<DevicesPageProps> = () => {
         </CardHeader>
         <CardContent>
           <DeviceTable />
+        </CardContent>
+      </Card>
+
+      <Card className="col-span-3">
+        <CardHeader>
+          <CardTitle>Device Locations</CardTitle>
+          <CardDescription>
+            Geographic distribution of all connected devices in your ecosystem
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0 h-[600px]">
+          <DevicesMap />
         </CardContent>
       </Card>
     </div>

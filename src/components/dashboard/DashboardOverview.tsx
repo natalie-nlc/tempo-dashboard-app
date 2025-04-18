@@ -56,6 +56,14 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
       icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
+      title: "Total Shots",
+      value: "24,568",
+      change: "+5.2%",
+      trend: "up",
+      description: "All time",
+      icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
       title: "Maintenance Alerts",
       value: "12",
       change: "-3",
