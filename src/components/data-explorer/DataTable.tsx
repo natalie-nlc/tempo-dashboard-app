@@ -37,6 +37,9 @@ interface BrewEvent {
   recipeId: string;
   timestamp: string;
   peakPressure: number;
+  consumableId: number;
+  roastDate: string;
+  consumableOpenDays: number;
 }
 
 interface DataTableProps {
@@ -53,6 +56,9 @@ const mockData: BrewEvent[] = [
     recipeId: "21",
     timestamp: "2023-06-15 08:26:22",
     peakPressure: 6.2,
+    consumableId: 1001,
+    roastDate: "01/06/2023",
+    consumableOpenDays: 14,
   },
   {
     eventId: "3465921786325",
@@ -62,6 +68,9 @@ const mockData: BrewEvent[] = [
     recipeId: "31",
     timestamp: "2023-06-15 07:45:10",
     peakPressure: 10.2,
+    consumableId: 1002,
+    roastDate: "02/06/2023",
+    consumableOpenDays: 13,
   },
   {
     eventId: "3245645342578",
@@ -71,6 +80,9 @@ const mockData: BrewEvent[] = [
     recipeId: "21",
     timestamp: "2023-06-14 14:22:05",
     peakPressure: 7.9,
+    consumableId: 1003,
+    roastDate: "28/05/2023",
+    consumableOpenDays: 17,
   },
   {
     eventId: "3465921786326",
@@ -80,6 +92,9 @@ const mockData: BrewEvent[] = [
     recipeId: "21",
     timestamp: "2023-06-14 11:18:33",
     peakPressure: 10.7,
+    consumableId: 1001,
+    roastDate: "01/06/2023",
+    consumableOpenDays: 13,
   },
   {
     eventId: "3245645342579",
@@ -89,6 +104,9 @@ const mockData: BrewEvent[] = [
     recipeId: "32",
     timestamp: "2023-06-14 09:05:47",
     peakPressure: 11.2,
+    consumableId: 1004,
+    roastDate: "05/06/2023",
+    consumableOpenDays: 9,
   },
   {
     eventId: "2359873947847",
@@ -98,6 +116,9 @@ const mockData: BrewEvent[] = [
     recipeId: "32",
     timestamp: "2023-06-13 16:42:19",
     peakPressure: 8.8,
+    consumableId: 1005,
+    roastDate: "10/06/2023",
+    consumableOpenDays: 3,
   },
   {
     eventId: "3465921786327",
@@ -107,6 +128,9 @@ const mockData: BrewEvent[] = [
     recipeId: "31",
     timestamp: "2023-06-13 14:30:55",
     peakPressure: 7.3,
+    consumableId: 1002,
+    roastDate: "02/06/2023",
+    consumableOpenDays: 11,
   },
   {
     eventId: "3245645342580",
@@ -116,6 +140,9 @@ const mockData: BrewEvent[] = [
     recipeId: "28",
     timestamp: "2023-06-12 10:15:22",
     peakPressure: 6.9,
+    consumableId: 1006,
+    roastDate: "25/05/2023",
+    consumableOpenDays: 18,
   },
   {
     eventId: "1298765432987",
@@ -125,6 +152,9 @@ const mockData: BrewEvent[] = [
     recipeId: "21",
     timestamp: "2023-06-12 08:20:11",
     peakPressure: 7.1,
+    consumableId: 1007,
+    roastDate: "15/05/2023",
+    consumableOpenDays: 28,
   },
   {
     eventId: "1298765432988",
@@ -134,6 +164,9 @@ const mockData: BrewEvent[] = [
     recipeId: "21",
     timestamp: "2023-06-11 15:10:33",
     peakPressure: 5.9,
+    consumableId: 1007,
+    roastDate: "15/05/2023",
+    consumableOpenDays: 27,
   },
 ];
 
@@ -240,12 +273,28 @@ const DataTable: React.FC<DataTableProps> = ({
         valueA = a.peakPressure;
         valueB = b.peakPressure;
         break;
+      case "consumableId":
+        valueA = a.consumableId;
+        valueB = b.consumableId;
+        break;
+      case "roastDate":
+        valueA = a.roastDate;
+        valueB = b.roastDate;
+        break;
+      case "consumableOpenDays":
+        valueA = a.consumableOpenDays;
+        valueB = b.consumableOpenDays;
+        break;
       default:
         return 0;
     }
 
     // Handle numeric values
-    if (sortColumn === "peakPressure") {
+    if (
+      sortColumn === "peakPressure" ||
+      sortColumn === "consumableId" ||
+      sortColumn === "consumableOpenDays"
+    ) {
       return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
     }
 
@@ -383,8 +432,8 @@ const DataTable: React.FC<DataTableProps> = ({
         </Button>
       </div>
 
-      <div className="border rounded-md">
-        <Table>
+      <div className="border rounded-md overflow-x-auto">
+        <Table className="min-w-full">
           <TableHeader>
             <TableRow className="bg-muted/50">
               <TableHead
@@ -506,6 +555,57 @@ const DataTable: React.FC<DataTableProps> = ({
                   )}
                 </div>
               </TableHead>
+              <TableHead
+                onClick={() => handleSort("consumableId")}
+                className="cursor-pointer hover:bg-muted"
+              >
+                <div className="flex items-center">
+                  Consumable ID
+                  {sortColumn === "consumableId" ? (
+                    sortDirection === "asc" ? (
+                      <ArrowUp className="ml-1 h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="ml-1 h-4 w-4" />
+                    )
+                  ) : (
+                    <ArrowUpDown className="ml-1 h-4 w-4 opacity-50" />
+                  )}
+                </div>
+              </TableHead>
+              <TableHead
+                onClick={() => handleSort("roastDate")}
+                className="cursor-pointer hover:bg-muted"
+              >
+                <div className="flex items-center">
+                  Roast Date
+                  {sortColumn === "roastDate" ? (
+                    sortDirection === "asc" ? (
+                      <ArrowUp className="ml-1 h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="ml-1 h-4 w-4" />
+                    )
+                  ) : (
+                    <ArrowUpDown className="ml-1 h-4 w-4 opacity-50" />
+                  )}
+                </div>
+              </TableHead>
+              <TableHead
+                onClick={() => handleSort("consumableOpenDays")}
+                className="cursor-pointer hover:bg-muted"
+              >
+                <div className="flex items-center">
+                  Open Days
+                  {sortColumn === "consumableOpenDays" ? (
+                    sortDirection === "asc" ? (
+                      <ArrowUp className="ml-1 h-4 w-4" />
+                    ) : (
+                      <ArrowDown className="ml-1 h-4 w-4" />
+                    )
+                  ) : (
+                    <ArrowUpDown className="ml-1 h-4 w-4 opacity-50" />
+                  )}
+                </div>
+              </TableHead>
               <TableHead>Chart</TableHead>
             </TableRow>
           </TableHeader>
@@ -523,6 +623,9 @@ const DataTable: React.FC<DataTableProps> = ({
                 <TableCell className={getPressureColor(event.peakPressure)}>
                   {event.peakPressure}
                 </TableCell>
+                <TableCell>{event.consumableId}</TableCell>
+                <TableCell>{event.roastDate}</TableCell>
+                <TableCell>{event.consumableOpenDays}</TableCell>
                 <TableCell>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                     <BarChart className="h-4 w-4" />

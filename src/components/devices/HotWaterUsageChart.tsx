@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TimeRangeValue } from "@/components/common/TimeRangeFilter";
 
 interface HotWaterUsageChartProps {
   data?: Array<{
@@ -29,6 +30,7 @@ interface HotWaterUsageChartProps {
     volume: number;
   }>;
   isLoading?: boolean;
+  timeRange?: TimeRangeValue;
 }
 
 const generateLastMonthData = () => {
@@ -105,11 +107,53 @@ const defaultData = generateLastMonthData();
 const HotWaterUsageChart: React.FC<HotWaterUsageChartProps> = ({
   data = defaultData,
   isLoading = false,
+  timeRange: externalTimeRange,
 }) => {
-  const [timeRange, setTimeRange] = useState<"week" | "month" | "3months">(
-    "month",
-  );
+  const [internalTimeRange, setInternalTimeRange] = useState<
+    "week" | "month" | "3months"
+  >("month");
   const [chartData, setChartData] = useState(data);
+
+  // Map external time range to internal time range format
+  const mapExternalToInternalTimeRange = (
+    timeRange: TimeRangeValue,
+  ): "week" | "month" | "3months" => {
+    switch (timeRange) {
+      case "30m":
+      case "1h":
+      case "4h":
+      case "8h":
+      case "24h":
+      case "3d":
+      case "7d":
+        return "week";
+      case "30d":
+        return "month";
+      case "custom":
+        return "3months";
+      default:
+        return "month";
+    }
+  };
+
+  // Use external time range if provided, otherwise use internal state
+  const effectiveTimeRange = externalTimeRange
+    ? mapExternalToInternalTimeRange(externalTimeRange)
+    : internalTimeRange;
+
+  // Update chart data when external time range changes
+  useEffect(() => {
+    if (externalTimeRange) {
+      const mappedRange = mapExternalToInternalTimeRange(externalTimeRange);
+      if (mappedRange === "week") {
+        setChartData(generateLastWeekData());
+      } else if (mappedRange === "month") {
+        setChartData(generateLastMonthData());
+      } else if (mappedRange === "3months") {
+        setChartData(generateLast3MonthsData());
+      }
+    }
+  }, [externalTimeRange]);
 
   const handleTimeRangeChange = (value: string) => {
     if (value === "week") {
@@ -119,7 +163,7 @@ const HotWaterUsageChart: React.FC<HotWaterUsageChartProps> = ({
     } else if (value === "3months") {
       setChartData(generateLast3MonthsData());
     }
-    setTimeRange(value as "week" | "month" | "3months");
+    setInternalTimeRange(value as "week" | "month" | "3months");
   };
 
   if (isLoading) {
@@ -145,16 +189,21 @@ const HotWaterUsageChart: React.FC<HotWaterUsageChartProps> = ({
             Volume of hot water dispensed over time (ml)
           </CardDescription>
         </div>
-        <Select value={timeRange} onValueChange={handleTimeRangeChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select time range" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="week">Last Week</SelectItem>
-            <SelectItem value="month">Last Month</SelectItem>
-            <SelectItem value="3months">Last 3 Months</SelectItem>
-          </SelectContent>
-        </Select>
+        {!externalTimeRange && (
+          <Select
+            value={internalTimeRange}
+            onValueChange={handleTimeRangeChange}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select time range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="week">Last Week</SelectItem>
+              <SelectItem value="month">Last Month</SelectItem>
+              <SelectItem value="3months">Last 3 Months</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
       </CardHeader>
       <CardContent>
         <div className="h-[250px]">
@@ -166,7 +215,11 @@ const HotWaterUsageChart: React.FC<HotWaterUsageChartProps> = ({
                 tick={{ fontSize: 12 }}
                 tickLine={false}
                 interval={
-                  timeRange === "3months" ? 5 : timeRange === "month" ? 2 : 0
+                  effectiveTimeRange === "3months"
+                    ? 5
+                    : effectiveTimeRange === "month"
+                      ? 2
+                      : 0
                 }
               />
               <YAxis

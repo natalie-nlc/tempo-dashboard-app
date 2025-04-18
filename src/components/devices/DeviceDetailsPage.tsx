@@ -38,6 +38,9 @@ import MilkPreferencePieChart from "./MilkPreferencePieChart";
 import HotWaterUsageChart from "./HotWaterUsageChart";
 import UsageHeatmap from "./UsageHeatmap";
 import PreferredRoastsChart from "./PreferredRoastsChart";
+import TimeRangeFilter, {
+  TimeRangeValue,
+} from "@/components/common/TimeRangeFilter";
 
 // Import mock data for development
 import { mockDevices } from "./DeviceTable";
@@ -48,6 +51,7 @@ const DeviceDetailsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [showWarnings, setShowWarnings] = useState(true);
   const [showInformation, setShowInformation] = useState(true);
+  const [timeRange, setTimeRange] = useState<TimeRangeValue>("24h");
   const switchId = useId();
 
   useEffect(() => {
@@ -739,34 +743,42 @@ const DeviceDetailsPage: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="usage" className="mt-6 space-y-6">
+          <div className="flex justify-end mb-4">
+            <TimeRangeFilter
+              value={timeRange}
+              onChange={setTimeRange}
+              className="w-auto"
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
-              <PreferredRoastsChart />
+              <PreferredRoastsChart timeRange={timeRange} />
             </div>
             <div className="md:col-span-1">
-              <CoffeePreferencePieChart />
+              <CoffeePreferencePieChart timeRange={timeRange} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <MachineUsageByTime />
-            <MachineUsageFrequency />
+            <MachineUsageByTime timeRange={timeRange} />
+            <MachineUsageFrequency timeRange={timeRange} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             <div className="md:col-span-8">
-              <UsageHeatmap deviceId={deviceId} />
+              <UsageHeatmap deviceId={deviceId} timeRange={timeRange} />
             </div>
             <div className="md:col-span-4">
-              <MilkPreferencePieChart />
+              <MilkPreferencePieChart timeRange={timeRange} />
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            <HotWaterUsageChart />
+            <HotWaterUsageChart timeRange={timeRange} />
           </div>
 
-          <UserInsightsSection />
+          <UserInsightsSection timeRange={timeRange} />
         </TabsContent>
 
         <TabsContent value="admin" className="mt-6">
