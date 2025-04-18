@@ -4,6 +4,7 @@ import Home from "./components/home";
 import DevicesPage from "./components/devices/DevicesPage";
 import DeviceDetailsPage from "./components/devices/DeviceDetailsPage";
 import DataTable from "./components/data-explorer/DataTable";
+import AlertsErrorsPage from "./components/data-explorer/AlertsErrorsPage";
 import MainLayout from "./components/layout/MainLayout";
 import routes from "tempo-routes";
 
@@ -42,6 +43,14 @@ function App() {
             element={
               <MainLayout>
                 <DataTable />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/data-explorer/alerts"
+            element={
+              <MainLayout>
+                <AlertsErrorsPage />
               </MainLayout>
             }
           />

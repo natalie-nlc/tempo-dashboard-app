@@ -16,30 +16,6 @@ export default function HomePage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">
-              Total nunc. Devices
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">248</div>
-            <p className="text-xs text-muted-foreground">+12 from last month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active nunc. Devices
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">224</div>
-            <p className="text-xs text-muted-foreground">90.3% of total</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
               Espresso Shots Today
             </CardTitle>
           </CardHeader>
@@ -60,6 +36,30 @@ export default function HomePage() {
             <p className="text-xs text-muted-foreground">
               % shots using dynGG that had a peak pressure between 6 and 9 bars
             </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total nunc. Devices
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">248</div>
+            <p className="text-xs text-muted-foreground">+12 from last month</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">
+              Active nunc. Devices
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">224</div>
+            <p className="text-xs text-muted-foreground">90.3% of total</p>
           </CardContent>
         </Card>
       </div>

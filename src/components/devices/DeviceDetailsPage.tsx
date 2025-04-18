@@ -34,7 +34,10 @@ import UserInsightsSection from "./UserInsightsSection";
 import MachineUsageByTime from "./MachineUsageByTime";
 import MachineUsageFrequency from "./MachineUsageFrequency";
 import CoffeePreferencePieChart from "./CoffeePreferencePieChart";
+import MilkPreferencePieChart from "./MilkPreferencePieChart";
+import HotWaterUsageChart from "./HotWaterUsageChart";
 import UsageHeatmap from "./UsageHeatmap";
+import PreferredRoastsChart from "./PreferredRoastsChart";
 
 // Import mock data for development
 import { mockDevices } from "./DeviceTable";
@@ -117,7 +120,7 @@ const DeviceDetailsPage: React.FC = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-4 gap-4">
                     <div className="bg-muted/20 p-4 rounded-lg">
                       <p className="text-sm font-medium text-muted-foreground">
                         Total Brews
@@ -125,6 +128,15 @@ const DeviceDetailsPage: React.FC = () => {
                       <h3 className="text-2xl font-bold mt-1">1,248</h3>
                       <p className="text-xs text-muted-foreground mt-1">
                         +124 from last month
+                      </p>
+                    </div>
+                    <div className="bg-muted/20 p-4 rounded-lg">
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Total Grinds
+                      </p>
+                      <h3 className="text-2xl font-bold mt-1">1,356</h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        +138 from last month
                       </p>
                     </div>
                     <div className="bg-muted/20 p-4 rounded-lg">
@@ -154,6 +166,35 @@ const DeviceDetailsPage: React.FC = () => {
                         Last 7 days
                       </p>
                     </div>
+                    <div className="bg-muted/20 p-4 rounded-lg">
+                      <p className="text-sm font-medium text-muted-foreground">
+                        Avg. Daily Grinds
+                      </p>
+                      <h3 className="text-2xl font-bold mt-1">
+                        {device.id === "1"
+                          ? "5.4"
+                          : device.id === "2"
+                            ? "3.2"
+                            : device.id === "3"
+                              ? "6.5"
+                              : device.id === "4"
+                                ? "2.3"
+                                : device.id === "5"
+                                  ? "4.2"
+                                  : device.id === "6"
+                                    ? "1.1"
+                                    : device.id === "7"
+                                      ? "5.3"
+                                      : device.id === "8"
+                                        ? "3.4"
+                                        : "4.3"}
+                      </h3>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Last 7 days
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-4">
                     <div className="bg-muted/20 p-4 rounded-lg">
                       <p className="text-sm font-medium text-muted-foreground">
                         Beans Ground
@@ -698,18 +739,31 @@ const DeviceDetailsPage: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="usage" className="mt-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <PreferredRoastsChart />
+            </div>
+            <div className="md:col-span-1">
+              <CoffeePreferencePieChart />
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <MachineUsageByTime />
             <MachineUsageFrequency />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-10 gap-6">
-            <div className="md:col-span-7">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="md:col-span-8">
               <UsageHeatmap deviceId={deviceId} />
             </div>
-            <div className="md:col-span-3">
-              <CoffeePreferencePieChart />
+            <div className="md:col-span-4">
+              <MilkPreferencePieChart />
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6">
+            <HotWaterUsageChart />
           </div>
 
           <UserInsightsSection />

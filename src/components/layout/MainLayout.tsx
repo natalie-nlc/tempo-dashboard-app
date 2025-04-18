@@ -68,18 +68,54 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             </Link>
           </Button>
 
-          <Button
-            variant={activeSection === "data-explorer" ? "default" : "ghost"}
-            className="w-full justify-start"
-            asChild
-          >
-            <Link to="/data-explorer">
-              <div className="flex items-center gap-2">
-                <Database className="h-4 w-4" />
-                <span>Labs</span>
+          <div className="space-y-1">
+            <Button
+              variant={activeSection === "data-explorer" ? "default" : "ghost"}
+              className="w-full justify-start"
+              asChild
+            >
+              <Link to="/data-explorer">
+                <div className="flex items-center gap-2">
+                  <Database className="h-4 w-4" />
+                  <span>Labs</span>
+                </div>
+              </Link>
+            </Button>
+
+            {activeSection === "data-explorer" && (
+              <div className="pl-6 space-y-1">
+                <Button
+                  variant={
+                    location.pathname === "/data-explorer"
+                      ? "secondary"
+                      : "ghost"
+                  }
+                  size="sm"
+                  className="w-full justify-start"
+                  asChild
+                >
+                  <Link to="/data-explorer">
+                    <span>Events</span>
+                  </Link>
+                </Button>
+
+                <Button
+                  variant={
+                    location.pathname === "/data-explorer/alerts"
+                      ? "secondary"
+                      : "ghost"
+                  }
+                  size="sm"
+                  className="w-full justify-start"
+                  asChild
+                >
+                  <Link to="/data-explorer/alerts">
+                    <span>Alerts & Errors</span>
+                  </Link>
+                </Button>
               </div>
-            </Link>
-          </Button>
+            )}
+          </div>
         </nav>
 
         <div className="pt-4 border-t">
@@ -104,13 +140,6 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <header className="border-b bg-card p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h2 className="text-lg font-semibold">Ecosystem Dashboard</h2>
-            <Tabs defaultValue="overview" className="w-[400px]">
-              <TabsList>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="performance">Performance</TabsTrigger>
-                <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
-              </TabsList>
-            </Tabs>
           </div>
 
           <div className="flex items-center gap-4">
