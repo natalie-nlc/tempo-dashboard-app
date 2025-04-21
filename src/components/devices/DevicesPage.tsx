@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import DevicesMap from "./DevicesMap";
 import DeviceTable from "./DeviceTable";
+import DeviceStatusGrid from "../dashboard/DeviceStatusGrid";
 
 interface DevicesPageProps {}
 
@@ -35,6 +36,18 @@ const DevicesPage: React.FC<DevicesPageProps> = () => {
         </CardHeader>
         <CardContent className="p-0 h-[600px]">
           <DevicesMap />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Company Prototype Statuses</CardTitle>
+          <CardDescription>
+            Current status of all connected prototype devices
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <DeviceStatusGrid />
         </CardContent>
       </Card>
     </div>

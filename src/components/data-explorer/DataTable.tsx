@@ -721,6 +721,9 @@ const DataTable: React.FC<DataTableProps> = ({
                     variant="outline"
                     size="sm"
                     className="flex items-center gap-1"
+                    onClick={() =>
+                      window.open(`/devices/${event.deviceId}`, "_blank")
+                    }
                   >
                     <span>Open Device</span>
                   </Button>

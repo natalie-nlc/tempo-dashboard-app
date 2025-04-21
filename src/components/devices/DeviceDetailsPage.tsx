@@ -41,6 +41,7 @@ import PreferredRoastsChart from "./PreferredRoastsChart";
 import TimeRangeFilter, {
   TimeRangeValue,
 } from "@/components/common/TimeRangeFilter";
+import DevicePerformanceHistogram from "./DevicePerformanceHistogram";
 
 // Import mock data for development
 import { mockDevices } from "./DeviceTable";
@@ -778,16 +779,31 @@ const DeviceDetailsPage: React.FC = () => {
             <HotWaterUsageChart timeRange={timeRange} />
           </div>
 
+          <div className="grid grid-cols-1 gap-6">
+            <DevicePerformanceHistogram
+              deviceId={deviceId || ""}
+              timeRange={timeRange}
+              onTimeRangeChange={setTimeRange}
+            />
+          </div>
+
           <UserInsightsSection timeRange={timeRange} />
         </TabsContent>
 
         <TabsContent value="admin" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Administrative Controls</CardTitle>
-              <CardDescription>
-                Device management and configuration options
-              </CardDescription>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Administrative Controls</CardTitle>
+                  <CardDescription>
+                    Device management and configuration options
+                  </CardDescription>
+                </div>
+                <Button variant="outline" size="sm">
+                  Download Logs
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">

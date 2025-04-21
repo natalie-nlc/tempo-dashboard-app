@@ -17,9 +17,6 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 import {
   ArrowUpIcon,
@@ -29,8 +26,14 @@ import {
   CoffeeIcon,
   Settings2Icon,
 } from "lucide-react";
-import DeviceStatusGrid from "./DeviceStatusGrid";
 import PerformanceCharts from "./PerformanceCharts";
+import DailyShotsChart from "./DailyShotsChart";
+import EspressoRangeChart from "./EspressoRangeChart";
+import RoastRecipePieChart from "./RoastRecipePieChart";
+import UsageHeatmap from "./UsageHeatmap";
+import MachinePerformanceScatter from "./MachinePerformanceScatter";
+import DynGGPerformanceChart from "./DynGGPerformanceChart";
+import TimeRangeFilter, { TimeRangeValue } from "../common/TimeRangeFilter";
 
 interface DashboardOverviewProps {
   shotAccuracy?: {
@@ -50,6 +53,18 @@ interface DashboardOverviewProps {
     value: string;
     description: string;
   };
+  timeRange?: TimeRangeValue;
+  onTimeRangeChange?: (value: TimeRangeValue) => void;
+  dailyShotsData?: Array<{
+    date: string;
+    shots: number;
+    devices: number;
+  }>;
+  espressoRangeData?: Array<{
+    date: string;
+    shots: number;
+    deviceCount: number;
+  }>;
 }
 
 const DashboardOverview: React.FC<DashboardOverviewProps> = ({
@@ -57,6 +72,10 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   activeDevices,
   totalDevices,
   totalBeansGround,
+  timeRange = "30d",
+  onTimeRangeChange = () => {},
+  dailyShotsData,
+  espressoRangeData,
 }) => {
   // Mock data for KPI cards
   const kpiData = [
@@ -79,16 +98,17 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       icon: <ActivityIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      title: "Brews Today",
-      value: "1,842",
-      change: "+18%",
+      title: "Shot Accuracy",
+      value: shotAccuracy?.value || "91.2%",
+      change: shotAccuracy?.change || "+1.5%",
       trend: "up",
-      timeRange: "yesterday",
-      description: "Total espresso shots brewed",
-      icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
+      timeRange: "last 24 hours",
+      description:
+        shotAccuracy?.description || "Peak pressure between 6-9 bars",
+      icon: <Settings2Icon className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      title: "Total Shots",
+      title: "Total Shots Brewed",
       value: "24,568",
       change: "+5.2%",
       trend: "up",
@@ -114,16 +134,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
       description: "Pending maintenance issues",
       icon: <AlertTriangleIcon className="h-4 w-4 text-muted-foreground" />,
     },
-    {
-      title: "Shot Accuracy",
-      value: shotAccuracy?.value || "91.2%",
-      change: shotAccuracy?.change || "+1.5%",
-      trend: "up",
-      timeRange: "last 24 hours",
-      description:
-        shotAccuracy?.description || "Peak pressure between 6-9 bars",
-      icon: <Settings2Icon className="h-4 w-4 text-muted-foreground" />,
-    },
   ];
 
   // Mock data for usage chart
@@ -137,15 +147,6 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     { name: "6 PM", brews: 185, grinds: 170 },
     { name: "9 PM", brews: 98, grinds: 85 },
   ];
-
-  // Mock data for device types
-  const deviceTypeData = [
-    { name: "Espresso Machines", value: 156 },
-    { name: "Grinders", value: 87 },
-    { name: "Combo Units", value: 43 },
-  ];
-
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28"];
 
   return (
     <div className="flex flex-col gap-6 p-6 bg-background">
@@ -246,53 +247,58 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </CardContent>
         </Card>
 
-        {/* Device Types Distribution */}
+        {/* Roast & Recipe Distribution */}
         <Card className="col-span-3">
           <CardHeader>
-            <CardTitle>Device Distribution</CardTitle>
-            <CardDescription>Types of devices in the ecosystem</CardDescription>
+            <CardTitle>Roast & Recipe Distribution</CardTitle>
+            <CardDescription>
+              Popular roasts and recipes across all devices
+            </CardDescription>
           </CardHeader>
-          <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={deviceTypeData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) =>
-                    `${name}: ${(percent * 100).toFixed(0)}%`
-                  }
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {deviceTypeData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+          <CardContent className="h-[300px] flex flex-col">
+            <RoastRecipePieChart
+              timeRange={timeRange}
+              onTimeRangeChange={onTimeRangeChange}
+            />
           </CardContent>
         </Card>
       </div>
 
-      {/* Device Status Grid */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Device Status</CardTitle>
-          <CardDescription>
-            Current status of all connected devices
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <DeviceStatusGrid />
-        </CardContent>
-      </Card>
+      {/* DynGG Performance Chart */}
+      <div className="grid gap-4 md:grid-cols-1">
+        <DynGGPerformanceChart
+          timeRange={timeRange}
+          onTimeRangeChange={onTimeRangeChange}
+        />
+      </div>
+
+      {/* Brew Activity Heatmap */}
+      <div className="grid gap-4 md:grid-cols-1">
+        <UsageHeatmap
+          timeRange={timeRange}
+          onTimeRangeChange={onTimeRangeChange}
+        />
+      </div>
+
+      {/* Daily Shots Chart */}
+      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+        <DailyShotsChart
+          data={dailyShotsData}
+          timeRange={timeRange}
+          onTimeRangeChange={onTimeRangeChange}
+        />
+        <EspressoRangeChart
+          data={espressoRangeData}
+          timeRange={timeRange}
+          onTimeRangeChange={onTimeRangeChange}
+        />
+      </div>
+
+      {/* Machine Performance Scatter Plot */}
+      <MachinePerformanceScatter
+        timeRange={timeRange}
+        onTimeRangeChange={onTimeRangeChange}
+      />
 
       {/* Performance Charts */}
       <Card>
