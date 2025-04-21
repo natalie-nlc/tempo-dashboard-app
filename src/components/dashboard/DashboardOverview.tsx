@@ -33,18 +33,49 @@ import DeviceStatusGrid from "./DeviceStatusGrid";
 import PerformanceCharts from "./PerformanceCharts";
 
 interface DashboardOverviewProps {
-  // Props can be added as needed
+  shotAccuracy?: {
+    value: string;
+    description: string;
+    change?: string;
+  };
+  activeDevices?: {
+    value: string;
+    description: string;
+  };
+  totalDevices?: {
+    value: string;
+    description: string;
+  };
+  totalBeansGround?: {
+    value: string;
+    description: string;
+  };
 }
 
-const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
+const DashboardOverview: React.FC<DashboardOverviewProps> = ({
+  shotAccuracy,
+  activeDevices,
+  totalDevices,
+  totalBeansGround,
+}) => {
   // Mock data for KPI cards
   const kpiData = [
     {
-      title: "Active Devices",
-      value: "243",
+      title: "Active nunc. Devices",
+      value: activeDevices?.value || "243",
       change: "+12%",
       trend: "up",
-      description: "From last month",
+      timeRange: "last month",
+      description: activeDevices?.description || "Connected and operational",
+      icon: <ActivityIcon className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Total nunc. Devices",
+      value: totalDevices?.value || "268",
+      change: "+3.5%",
+      trend: "up",
+      timeRange: "last quarter",
+      description: totalDevices?.description || "Across all locations",
       icon: <ActivityIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
@@ -52,7 +83,8 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
       value: "1,842",
       change: "+18%",
       trend: "up",
-      description: "From yesterday",
+      timeRange: "yesterday",
+      description: "Total espresso shots brewed",
       icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
@@ -60,7 +92,17 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
       value: "24,568",
       change: "+5.2%",
       trend: "up",
-      description: "All time",
+      timeRange: "last week",
+      description: "Cumulative espresso shots",
+      icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
+    },
+    {
+      title: "Total Beans Ground",
+      value: totalBeansGround?.value || "1,245 kg",
+      change: "+8.7%",
+      trend: "up",
+      timeRange: "last 30 days",
+      description: totalBeansGround?.description || "Coffee beans processed",
       icon: <CoffeeIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
@@ -68,15 +110,18 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
       value: "12",
       change: "-3",
       trend: "down",
-      description: "From last week",
+      timeRange: "last week",
+      description: "Pending maintenance issues",
       icon: <AlertTriangleIcon className="h-4 w-4 text-muted-foreground" />,
     },
     {
-      title: "Avg. Performance",
-      value: "94%",
-      change: "+2%",
+      title: "Shot Accuracy",
+      value: shotAccuracy?.value || "91.2%",
+      change: shotAccuracy?.change || "+1.5%",
       trend: "up",
-      description: "From last month",
+      timeRange: "last 24 hours",
+      description:
+        shotAccuracy?.description || "Peak pressure between 6-9 bars",
       icon: <Settings2Icon className="h-4 w-4 text-muted-foreground" />,
     },
   ];
@@ -127,7 +172,7 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{kpi.value}</div>
-              <p className="text-xs text-muted-foreground flex items-center">
+              <p className="text-xs flex items-center">
                 {kpi.trend === "up" ? (
                   <ArrowUpIcon className="mr-1 h-4 w-4 text-emerald-500" />
                 ) : (
@@ -140,7 +185,12 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = () => {
                 >
                   {kpi.change}
                 </span>
-                <span className="ml-1">{kpi.description}</span>
+                <span className="ml-1 text-muted-foreground">
+                  {kpi.timeRange || ""}
+                </span>
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {kpi.description}
               </p>
             </CardContent>
           </Card>
