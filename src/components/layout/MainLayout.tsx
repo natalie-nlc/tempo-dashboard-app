@@ -38,7 +38,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       <div className="w-64 border-r bg-card p-4 flex flex-col">
         <div className="flex items-center gap-2 mb-8">
           <Coffee className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold">Nunc. Monitoring</h1>
+          <h1 className="text-xl font-bold">Machine Insights</h1>
         </div>
 
         <nav className="space-y-2 flex-1">
@@ -139,7 +139,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         {/* Header */}
         <header className="border-b bg-card p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h2 className="text-lg font-semibold">Ecosystem Dashboard</h2>
+            <h2 className="text-lg font-semibold">nunc.</h2>
           </div>
 
           <div className="flex items-center gap-4">

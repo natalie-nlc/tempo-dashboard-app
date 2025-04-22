@@ -81,7 +81,7 @@ const DeviceTable: React.FC<DeviceTableProps> = ({
           <Select
             value={filters.status}
             onValueChange={(value) =>
-              setFilters({ ...filters, status: value as DeviceStatus | "" })
+              setFilters({ ...filters, status: value as DeviceStatus | "all" })
             }
           >
             <SelectTrigger>
@@ -100,7 +100,7 @@ const DeviceTable: React.FC<DeviceTableProps> = ({
           <Select
             value={filters.model}
             onValueChange={(value) =>
-              setFilters({ ...filters, model: value as DeviceModel | "" })
+              setFilters({ ...filters, model: value as DeviceModel | "all" })
             }
           >
             <SelectTrigger>

@@ -15,6 +15,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  AreaChart,
+  Area,
 } from "recharts";
 import TimeRangeFilter, { TimeRangeValue } from "../common/TimeRangeFilter";
 
@@ -137,38 +139,50 @@ const DailyShotsChart: React.FC<DailyShotsChartProps> = ({
     <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <div>
-          <CardTitle>Daily Shots Across Devices</CardTitle>
+          <CardTitle>Monthly Shots Across Devices</CardTitle>
           <CardDescription>
-            Total number of espresso shots brewed per day
+            Total number of espresso shots brewed per month
           </CardDescription>
         </div>
-        <TimeRangeFilter value={timeRange} onChange={handleTimeRangeChange} />
       </CardHeader>
       <CardContent className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <AreaChart
             data={dailyShotsData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
+            <defs>
+              <linearGradient id="colorShots" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorDevices" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line
+            <Area
               type="monotone"
               dataKey="shots"
               stroke="#8884d8"
-              activeDot={{ r: 8 }}
+              fillOpacity={1}
+              fill="url(#colorShots)"
               name="Total Shots"
             />
-            <Line
+            <Area
               type="monotone"
               dataKey="devices"
               stroke="#82ca9d"
+              fillOpacity={1}
+              fill="url(#colorDevices)"
               name="Active Devices"
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </CardContent>
     </Card>

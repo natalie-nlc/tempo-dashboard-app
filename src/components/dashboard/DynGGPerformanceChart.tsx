@@ -32,15 +32,15 @@ interface DynGGPerformanceChartProps {
 
 // Mock data for the histogram
 const generateMockData = () => {
-  // Create pressure ranges from 0 to 25 in increments of 1
-  const pressureRanges = Array.from({ length: 26 }, (_, i) => i);
+  // Create pressure ranges from 0 to 16 in increments of 1
+  const pressureRanges = Array.from({ length: 17 }, (_, i) => i);
 
   // Generate random counts for each pressure range with a normal-ish distribution
   // centered around 9-10 bars (typical espresso pressure)
   return pressureRanges.map((pressure) => {
     // Create a distribution that peaks around 9-10 bars
     let count = 0;
-    if (pressure >= 5 && pressure <= 14) {
+    if (pressure >= 5 && pressure <= 11) {
       // Higher counts in the typical espresso range
       const distance = Math.abs(pressure - 9.5);
       count = Math.floor(Math.random() * 100) + 100 - distance * 20;

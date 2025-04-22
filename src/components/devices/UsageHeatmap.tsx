@@ -7,9 +7,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { TimeRangeValue } from "@/components/common/TimeRangeFilter";
+
 interface UsageHeatmapProps {
   deviceId?: string;
   isLoading?: boolean;
+  timeRange?: TimeRangeValue;
 }
 
 const UsageHeatmap: React.FC<UsageHeatmapProps> = ({

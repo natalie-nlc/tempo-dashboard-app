@@ -22,6 +22,7 @@ interface MilkPreferencePieChartProps {
     color: string;
   }>;
   isLoading?: boolean;
+  timeRange?: TimeRangeValue;
 }
 
 const defaultData = [

@@ -23,6 +23,7 @@ interface UserData {
 interface UserInsightsSectionProps {
   users?: UserData[];
   isLoading?: boolean;
+  timeRange?: TimeRangeValue;
 }
 
 const UserInsightsSection: React.FC<UserInsightsSectionProps> = ({
