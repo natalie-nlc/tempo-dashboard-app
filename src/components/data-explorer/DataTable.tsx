@@ -672,6 +672,38 @@ const DataTable: React.FC<DataTableProps> = ({
               <X className="h-4 w-4" />
             </Button>
           </div>
+          <div className="flex space-x-2 mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={() => {
+                if (selectedEvent) {
+                  // Logic for exporting graph as image would go here
+                  console.log("Export graph as image");
+                  // In a real implementation, we would use html-to-image or similar library
+                }
+              }}
+            >
+              <Download className="h-4 w-4" />
+              <span>Export as Image</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={() => {
+                if (selectedEvent) {
+                  // Logic for exporting data as CSV would go here
+                  console.log("Export data as CSV");
+                  // In a real implementation, we would convert the data to CSV format
+                }
+              }}
+            >
+              <Download className="h-4 w-4" />
+              <span>Export as CSV</span>
+            </Button>
+          </div>
 
           {selectedEvent && (
             <div className="space-y-4">
@@ -703,60 +735,97 @@ const DataTable: React.FC<DataTableProps> = ({
 
               <div className="p-4 border rounded-md">
                 <h4 className="font-medium mb-4">Sensor Data Over Time</h4>
+                <div className="flex space-x-2 mb-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => {
+                      if (selectedEvent) {
+                        // Logic for exporting graph as image would go here
+                        console.log("Export graph as image");
+                        // In a real implementation, we would use html-to-image or similar library
+                      }
+                    }}
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Export as Image</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center gap-1"
+                    onClick={() => {
+                      if (selectedEvent) {
+                        // Logic for exporting data as CSV would go here
+                        console.log("Export data as CSV");
+                        // In a real implementation, we would convert the data to CSV format
+                      }
+                    }}
+                  >
+                    <Download className="h-4 w-4" />
+                    <span>Export as CSV</span>
+                  </Button>
+                </div>
                 {selectedEvent && (
-                  <LineGraph
-                    data={[
-                      {
-                        name: "Brewer Head Temp",
-                        color: "#ef4444",
-                        data: selectedEvent.brewerHeadTemp.map(
-                          (value, index) => ({
+                  <div className="bg-background">
+                    <LineGraph
+                      data={[
+                        {
+                          name: "Brewer Head Temp",
+                          color: "#ef4444",
+                          data: selectedEvent.brewerHeadTemp.map(
+                            (value, index) => ({
+                              time: index,
+                              value: value,
+                            }),
+                          ),
+                        },
+                        {
+                          name: "Flow Pump 1",
+                          color: "#3b82f6",
+                          data: selectedEvent.flowPump1.map((value, index) => ({
                             time: index,
                             value: value,
-                          }),
-                        ),
-                      },
-                      {
-                        name: "Flow Pump 1",
-                        color: "#3b82f6",
-                        data: selectedEvent.flowPump1.map((value, index) => ({
-                          time: index,
-                          value: value,
-                        })),
-                      },
-                      {
-                        name: "FTH Heater 1",
-                        color: "#f59e0b",
-                        data: selectedEvent.fthHeater1.map((value, index) => ({
-                          time: index,
-                          value: value,
-                        })),
-                      },
-                      {
-                        name: "Pressure Circuit 1",
-                        color: "#10b981",
-                        data: selectedEvent.pressureCircuit1.map(
-                          (value, index) => ({
-                            time: index,
-                            value: value,
-                          }),
-                        ),
-                      },
-                      {
-                        name: "Volume Pump 1",
-                        color: "#8b5cf6",
-                        data: selectedEvent.volumePump1.map((value, index) => ({
-                          time: index,
-                          value: value,
-                        })),
-                      },
-                    ]}
-                    title="Sensor Readings"
-                    xLabel="Time"
-                    yLabel="Value"
-                    height={300}
-                    startTime={selectedEvent.timestamp}
-                  />
+                          })),
+                        },
+                        {
+                          name: "FTH Heater 1",
+                          color: "#f59e0b",
+                          data: selectedEvent.fthHeater1.map(
+                            (value, index) => ({
+                              time: index,
+                              value: value,
+                            }),
+                          ),
+                        },
+                        {
+                          name: "Pressure Circuit 1",
+                          color: "#10b981",
+                          data: selectedEvent.pressureCircuit1.map(
+                            (value, index) => ({
+                              time: index,
+                              value: value,
+                            }),
+                          ),
+                        },
+                        {
+                          name: "Volume Pump 1",
+                          color: "#8b5cf6",
+                          data: selectedEvent.volumePump1.map(
+                            (value, index) => ({
+                              time: index,
+                              value: value,
+                            }),
+                          ),
+                        },
+                      ]}
+                      title="Sensor Readings"
+                      height={300}
+                      startTime={selectedEvent.timestamp}
+                      smoothing={true}
+                    />
+                  </div>
                 )}
               </div>
             </div>
