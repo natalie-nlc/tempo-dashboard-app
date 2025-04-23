@@ -633,6 +633,18 @@ const DeviceDetailsPage: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              <div className="grid grid-cols-1 gap-6">
+                <Card className="mt-6">
+                  <CardContent className="p-0">
+                    <DevicePerformanceHistogram
+                      deviceId={deviceId || ""}
+                      timeRange={timeRange}
+                      onTimeRangeChange={setTimeRange}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
             </div>
 
             <div className="md:col-span-1">
@@ -780,11 +792,15 @@ const DeviceDetailsPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-            <DevicePerformanceHistogram
-              deviceId={deviceId || ""}
-              timeRange={timeRange}
-              onTimeRangeChange={setTimeRange}
-            />
+            <Card className="mt-6">
+              <CardContent className="p-0">
+                <DevicePerformanceHistogram
+                  deviceId={deviceId || ""}
+                  timeRange={timeRange}
+                  onTimeRangeChange={setTimeRange}
+                />
+              </CardContent>
+            </Card>
           </div>
 
           <UserInsightsSection timeRange={timeRange} />
