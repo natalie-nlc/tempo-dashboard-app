@@ -366,7 +366,7 @@ const AlertsErrorsTable: React.FC<AlertsErrorsTableProps> = ({
             {paginatedData.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={7}
+                  colSpan={8}
                   className="h-24 text-center text-muted-foreground"
                 >
                   No alerts or errors match the current filters.
@@ -420,6 +420,18 @@ const AlertsErrorsTable: React.FC<AlertsErrorsTableProps> = ({
                       disabled={alert.resolved}
                     >
                       {!alert.resolved ? "Resolve" : ""}
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-1"
+                      onClick={() =>
+                        window.open(`/devices/${alert.deviceId}`, "_blank")
+                      }
+                    >
+                      Open Device
                     </Button>
                   </TableCell>
                 </TableRow>
