@@ -235,7 +235,7 @@ const DataTable: React.FC<DataTableProps> = ({
   return (
     <div className="flex w-full bg-background">
       <div
-        className={`${sidebarOpen ? "w-2/3" : "w-full"} p-6 transition-all duration-300`}
+        className={`${sidebarOpen ? "w-1/2" : "w-full"} p-6 transition-all duration-300`}
       >
         <div className="mb-6">
           <h2 className="text-2xl font-bold mb-4">Grind & Brew Events</h2>
@@ -665,7 +665,7 @@ const DataTable: React.FC<DataTableProps> = ({
 
       {/* Side panel for charts */}
       {sidebarOpen && (
-        <div className="w-1/3 border-l border-border p-4 bg-background transition-all duration-300 overflow-auto">
+        <div className="w-1/2 border-l border-border p-4 bg-background transition-all duration-300 overflow-auto">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold">Event Charts</h3>
             <Button variant="ghost" size="icon" onClick={handleCloseSidebar}>

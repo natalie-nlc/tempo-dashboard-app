@@ -15,4 +15,6 @@ export interface Device {
   firmwareVersion: string;
   purchaseDate?: string; // ISO date string
   shipDate?: string; // ISO date string
+  lastDescaling?: string; // ISO date string
+  lastFilterChange?: string; // ISO date string
 }

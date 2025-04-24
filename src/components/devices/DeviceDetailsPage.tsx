@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Device } from "@/types/device";
 import UserInsightsSection from "./UserInsightsSection";
+import MaintenanceDetails from "./MaintenanceDetails";
 import MachineUsageByTime from "./MachineUsageByTime";
 import MachineUsageFrequency from "./MachineUsageFrequency";
 import CoffeePreferencePieChart from "./CoffeePreferencePieChart";
@@ -45,6 +46,47 @@ import DevicePerformanceHistogram from "./DevicePerformanceHistogram";
 
 // Import mock data for development
 import { mockDevices } from "./DeviceTable";
+
+// Add mock maintenance data to devices
+const enhancedMockDevices = mockDevices.map((device) => ({
+  ...device,
+  lastDescaling:
+    device.id === "1"
+      ? "2023-10-15T10:30:00Z"
+      : device.id === "2"
+        ? "2023-11-22T14:45:00Z"
+        : device.id === "3"
+          ? "2023-09-05T08:15:00Z"
+          : device.id === "4"
+            ? "2023-12-10T16:20:00Z"
+            : device.id === "5"
+              ? "2024-01-18T11:10:00Z"
+              : device.id === "6"
+                ? "2023-08-30T09:45:00Z"
+                : device.id === "7"
+                  ? "2024-02-05T13:30:00Z"
+                  : device.id === "8"
+                    ? "2023-10-28T15:15:00Z"
+                    : undefined,
+  lastFilterChange:
+    device.id === "1"
+      ? "2024-01-05T10:30:00Z"
+      : device.id === "2"
+        ? "2023-12-12T14:45:00Z"
+        : device.id === "3"
+          ? "2024-02-15T08:15:00Z"
+          : device.id === "4"
+            ? "2023-11-20T16:20:00Z"
+            : device.id === "5"
+              ? "2024-03-08T11:10:00Z"
+              : device.id === "6"
+                ? "2023-10-10T09:45:00Z"
+                : device.id === "7"
+                  ? "2024-01-25T13:30:00Z"
+                  : device.id === "8"
+                    ? "2023-12-18T15:15:00Z"
+                    : undefined,
+}));
 
 const DeviceDetailsPage: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
@@ -61,8 +103,8 @@ const DeviceDetailsPage: React.FC = () => {
     const fetchDevice = () => {
       setLoading(true);
       try {
-        // Find the device in our mock data
-        const foundDevice = mockDevices.find((d) => d.id === deviceId);
+        // Find the device in our enhanced mock data
+        const foundDevice = enhancedMockDevices.find((d) => d.id === deviceId);
         if (foundDevice) {
           setDevice(foundDevice);
         }
@@ -647,7 +689,7 @@ const DeviceDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 space-y-6">
               <Card className="h-full">
                 <CardHeader>
                   <CardTitle>Device Information</CardTitle>
@@ -751,6 +793,8 @@ const DeviceDetailsPage: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              <MaintenanceDetails device={device} />
             </div>
           </div>
         </TabsContent>
