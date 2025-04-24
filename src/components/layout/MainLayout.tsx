@@ -26,6 +26,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     if (path === "/") return "dashboard";
     if (path.startsWith("/devices")) return "devices";
     if (path.startsWith("/data-explorer")) return "data-explorer";
+    if (path.startsWith("/labs")) return "labs";
     if (path.startsWith("/settings")) return "settings";
     return "dashboard";
   };
@@ -111,6 +112,19 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                 >
                   <Link to="/data-explorer/alerts">
                     <span>Alerts & Errors</span>
+                  </Link>
+                </Button>
+
+                <Button
+                  variant={
+                    location.pathname === "/labs/dyngg" ? "secondary" : "ghost"
+                  }
+                  size="sm"
+                  className="w-full justify-start"
+                  asChild
+                >
+                  <Link to="/labs/dyngg">
+                    <span>DynGG</span>
                   </Link>
                 </Button>
               </div>

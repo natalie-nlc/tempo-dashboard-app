@@ -6,6 +6,8 @@ import DeviceDetailsPage from "./components/devices/DeviceDetailsPage";
 import DataTable from "./components/data-explorer/DataTable";
 import AlertsErrorsPage from "./components/data-explorer/AlertsErrorsPage";
 import MainLayout from "./components/layout/MainLayout";
+import DynGGPage from "./components/labs/DynGGPage";
+import DynGGDeviceDetails from "./components/labs/DynGGDeviceDetails";
 import routes from "tempo-routes";
 
 function App() {
@@ -51,6 +53,22 @@ function App() {
             element={
               <MainLayout>
                 <AlertsErrorsPage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/labs/dyngg"
+            element={
+              <MainLayout>
+                <DynGGPage />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/labs/dyngg/:deviceId"
+            element={
+              <MainLayout>
+                <DynGGDeviceDetails />
               </MainLayout>
             }
           />

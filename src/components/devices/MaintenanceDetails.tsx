@@ -45,16 +45,9 @@ const MaintenanceDetails: React.FC<MaintenanceDetailsProps> = ({ device }) => {
 
           <div>
             <p className="text-sm font-medium text-gray-500">
-              Next Scheduled Maintenance
+              Temp Stability Rating
             </p>
-            <p>
-              {device.lastDescaling
-                ? new Date(
-                    new Date(device.lastDescaling).getTime() +
-                      90 * 24 * 60 * 60 * 1000,
-                  ).toLocaleDateString()
-                : "Not scheduled"}
-            </p>
+            <p>82%</p>
           </div>
 
           <div>
