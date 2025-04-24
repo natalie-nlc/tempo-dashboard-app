@@ -84,14 +84,7 @@ const DeviceStatusGrid: React.FC<DeviceStatusGridProps> = ({
   };
 
   const getDeviceIcon = (type: DeviceStatus["type"]) => {
-    switch (type) {
-      case "brewer":
-        return <Coffee className="h-5 w-5" />;
-      case "grinder":
-        return <Cog className="h-5 w-5" />;
-      default:
-        return <Coffee className="h-5 w-5" />;
-    }
+    return <Coffee className="h-5 w-5" />;
   };
 
   if (isLoading) {
@@ -156,38 +149,6 @@ const DeviceStatusGrid: React.FC<DeviceStatusGridProps> = ({
                 </TooltipProvider>
               </div>
 
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Usage</span>
-                    <span>{device.usagePercentage}%</span>
-                  </div>
-                  <Progress value={device.usagePercentage} className="h-2" />
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Maintenance</span>
-                    <span>{device.maintenanceStatus}%</span>
-                  </div>
-                  <Progress
-                    value={device.maintenanceStatus}
-                    className="h-2"
-                    // Apply color based on maintenance status
-                    style={
-                      {
-                        "--progress-background":
-                          device.maintenanceStatus > 70
-                            ? "rgb(239 68 68)"
-                            : device.maintenanceStatus > 40
-                              ? "rgb(234 179 8)"
-                              : "rgb(34 197 94)",
-                      } as React.CSSProperties
-                    }
-                  />
-                </div>
-              </div>
-
               {device.alerts > 0 && (
                 <div className="mt-3 flex items-center">
                   <AlertCircle className="h-4 w-4 text-red-500 mr-1" />
@@ -208,7 +169,7 @@ const DeviceStatusGrid: React.FC<DeviceStatusGridProps> = ({
 const mockDevices: DeviceStatus[] = [
   {
     id: "1",
-    name: "Brewer #A1201",
+    name: "nunc. #A1201",
     type: "brewer",
     status: "online",
     lastActive: "2 minutes ago",
@@ -219,7 +180,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "2",
-    name: "Grinder #G3405",
+    name: "nunc. #G3405",
     type: "grinder",
     status: "warning",
     lastActive: "15 minutes ago",
@@ -230,7 +191,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "3",
-    name: "Brewer #A1305",
+    name: "nunc. #A1305",
     type: "brewer",
     status: "maintenance",
     lastActive: "1 hour ago",
@@ -241,7 +202,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "4",
-    name: "Grinder #G2201",
+    name: "nunc. #G2201",
     type: "grinder",
     status: "offline",
     lastActive: "2 days ago",
@@ -252,7 +213,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "5",
-    name: "Brewer #A1422",
+    name: "nunc. #A1422",
     type: "brewer",
     status: "online",
     lastActive: "5 minutes ago",
@@ -263,7 +224,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "6",
-    name: "Grinder #G4102",
+    name: "nunc. #G4102",
     type: "grinder",
     status: "online",
     lastActive: "1 minute ago",
@@ -274,7 +235,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "7",
-    name: "Brewer #A1508",
+    name: "nunc. #A1508",
     type: "brewer",
     status: "warning",
     lastActive: "30 minutes ago",
@@ -285,7 +246,7 @@ const mockDevices: DeviceStatus[] = [
   },
   {
     id: "8",
-    name: "Grinder #G3901",
+    name: "nunc. #G3901",
     type: "grinder",
     status: "maintenance",
     lastActive: "3 hours ago",

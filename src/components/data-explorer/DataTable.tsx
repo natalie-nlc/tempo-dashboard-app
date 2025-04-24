@@ -397,6 +397,7 @@ const DataTable: React.FC<DataTableProps> = ({
                   </div>
                 </TableHead>
                 <TableHead>Device</TableHead>
+                <TableHead>Chart</TableHead>
                 <TableHead
                   onClick={() => handleSort("username")}
                   className="cursor-pointer hover:bg-muted"
@@ -567,7 +568,6 @@ const DataTable: React.FC<DataTableProps> = ({
                     )}
                   </div>
                 </TableHead>
-                <TableHead>Chart</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -590,18 +590,6 @@ const DataTable: React.FC<DataTableProps> = ({
                       <span>Open Device</span>
                     </Button>
                   </TableCell>
-                  <TableCell>{event.username}</TableCell>
-                  <TableCell>{event.roastId}</TableCell>
-                  <TableCell>{event.recipeId}</TableCell>
-                  <TableCell className={getPressureColor(event.peakPressure)}>
-                    {event.peakPressure}
-                  </TableCell>
-                  <TableCell>{event.consumableId}</TableCell>
-                  <TableCell>{event.roastDate}</TableCell>
-                  <TableCell>{event.consumableOpenDays}</TableCell>
-                  <TableCell>{event.model}</TableCell>
-                  <TableCell>{event.totalDoseWeight.toFixed(1)}</TableCell>
-                  <TableCell>{event.brewDuration}</TableCell>
                   <TableCell>
                     <Button
                       variant="outline"
@@ -616,6 +604,18 @@ const DataTable: React.FC<DataTableProps> = ({
                       <span>Open Charts</span>
                     </Button>
                   </TableCell>
+                  <TableCell>{event.username}</TableCell>
+                  <TableCell>{event.roastId}</TableCell>
+                  <TableCell>{event.recipeId}</TableCell>
+                  <TableCell className={getPressureColor(event.peakPressure)}>
+                    {event.peakPressure}
+                  </TableCell>
+                  <TableCell>{event.consumableId}</TableCell>
+                  <TableCell>{event.roastDate}</TableCell>
+                  <TableCell>{event.consumableOpenDays}</TableCell>
+                  <TableCell>{event.model}</TableCell>
+                  <TableCell>{event.totalDoseWeight.toFixed(1)}</TableCell>
+                  <TableCell>{event.brewDuration}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
