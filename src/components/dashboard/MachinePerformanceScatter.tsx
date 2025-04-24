@@ -234,7 +234,9 @@ const MachinePerformanceScatter: React.FC<MachinePerformanceScatterProps> = ({
             Correlation: Usage vs. % shots outside target pressure range
           </CardTitle>
           <CardDescription>
-            Machines with high usage and pressure issues are highlighted
+            Machines with high usage and pressure issues are highlighted in
+            orange. The chart is divided into quadrants by median values to help
+            identify outliers.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">

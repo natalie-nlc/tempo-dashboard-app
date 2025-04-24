@@ -121,7 +121,9 @@ const DevicePerformanceHistogram: React.FC<DevicePerformanceHistogramProps> = ({
         <div>
           <CardTitle>Device Performance Histogram</CardTitle>
           <CardDescription>
-            Distribution of peak pressure values for this device
+            Distribution of peak pressure values for this device, with the
+            optimal pressure range (6-9 bars) highlighted in green. Shows
+            pressure consistency over time.
           </CardDescription>
         </div>
         <div className="flex items-center space-x-2">

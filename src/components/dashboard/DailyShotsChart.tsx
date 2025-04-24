@@ -141,7 +141,8 @@ const DailyShotsChart: React.FC<DailyShotsChartProps> = ({
         <div>
           <CardTitle>Monthly Shots Across Devices</CardTitle>
           <CardDescription>
-            Total number of espresso shots brewed per month
+            Total number of espresso shots brewed per month across all connected
+            devices
           </CardDescription>
         </div>
       </CardHeader>

@@ -122,7 +122,9 @@ const UsageHeatmap: React.FC<UsageHeatmapProps> = ({
         <div>
           <CardTitle>Aggregate Brew Times by Day & Hour</CardTitle>
           <CardDescription>
-            Brew activity by hour of day and day of week
+            Brew activity by hour of day and day of week, with darker colors
+            indicating higher brewing activity. Helps identify peak usage
+            patterns.
           </CardDescription>
         </div>
         <TimeRangeFilter value={timeRange} onChange={handleTimeRangeChange} />

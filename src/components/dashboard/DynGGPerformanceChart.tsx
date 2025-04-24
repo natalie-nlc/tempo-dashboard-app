@@ -112,7 +112,8 @@ const DynGGPerformanceChart: React.FC<DynGGPerformanceChartProps> = ({
         <div>
           <CardTitle>dynGG Performance</CardTitle>
           <CardDescription>
-            Distribution of peak pressure values across shots
+            Distribution of peak pressure values across shots, showing optimal
+            pressure range (6-9 bars) in green
           </CardDescription>
         </div>
         <div className="flex items-center space-x-2">

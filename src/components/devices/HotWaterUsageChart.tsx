@@ -186,7 +186,8 @@ const HotWaterUsageChart: React.FC<HotWaterUsageChartProps> = ({
         <div>
           <CardTitle>Hot Water Usage</CardTitle>
           <CardDescription>
-            Volume of hot water dispensed over time (ml)
+            Volume of hot water dispensed over time (ml), tracking non-coffee
+            usage patterns and helping identify potential maintenance needs
           </CardDescription>
         </div>
         {!externalTimeRange && (

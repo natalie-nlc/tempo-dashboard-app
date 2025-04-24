@@ -114,7 +114,8 @@ const CoffeePreferencePieChart: React.FC<CoffeePreferencePieChartProps> = ({
       <CardHeader>
         <CardTitle>Coffee Preferences</CardTitle>
         <CardDescription>
-          Distribution of coffee types prepared with this machine
+          Distribution of coffee types prepared with this machine, showing the
+          percentage breakdown of different coffee styles preferred by users
         </CardDescription>
       </CardHeader>
       <CardContent>
