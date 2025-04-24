@@ -275,7 +275,7 @@ const DynGGTable: React.FC = () => {
                     size="sm"
                     className="flex items-center gap-1"
                     onClick={() =>
-                      window.open(`/labs/dyngg/${device.id}`, "_blank")
+                      (window.location.href = `/labs/dyngg/${device.id}`)
                     }
                   >
                     <BarChart className="h-4 w-4" />
