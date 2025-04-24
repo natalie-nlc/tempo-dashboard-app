@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,8 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, BarChart } from "lucide-react";
+import { ArrowUpDown, BarChart, Filter } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Device, DeviceModel } from "@/types/device";
 import { mockDevices } from "../devices/DeviceTable";
 
@@ -65,6 +67,9 @@ const DynGGTable: React.FC = () => {
   const [sortField, setSortField] = useState<SortField>("id");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [data] = useState<DynGGDeviceData[]>(generateMockDynGGData());
+  const [minPressure, setMinPressure] = useState<string>("");
+  const [maxPressure, setMaxPressure] = useState<string>("");
+  const [filteredData, setFilteredData] = useState<DynGGDeviceData[]>(data);
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -75,7 +80,24 @@ const DynGGTable: React.FC = () => {
     }
   };
 
-  const sortedData = [...data].sort((a, b) => {
+  useEffect(() => {
+    // Apply filters
+    let result = [...data];
+
+    // Filter by pressure range if values are provided
+    if (minPressure !== "" || maxPressure !== "") {
+      const min = minPressure !== "" ? parseFloat(minPressure) : 0;
+      const max = maxPressure !== "" ? parseFloat(maxPressure) : 100; // Set a high upper bound
+
+      result = result.filter((device) => {
+        return device.avgPeakPressure >= min && device.avgPeakPressure <= max;
+      });
+    }
+
+    setFilteredData(result);
+  }, [data, minPressure, maxPressure]);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     let valueA = a[sortField];
     let valueB = b[sortField];
 
@@ -110,8 +132,60 @@ const DynGGTable: React.FC = () => {
     return "text-red-600 font-medium";
   };
 
+  const handleMinPressureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMinPressure(e.target.value);
+  };
+
+  const handleMaxPressureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMaxPressure(e.target.value);
+  };
+
+  const clearFilters = () => {
+    setMinPressure("");
+    setMaxPressure("");
+  };
+
   return (
     <div className="w-full">
+      <div className="mb-4 p-4 rounded-md border bg-muted/10">
+        <div className="flex items-center gap-2 mb-2">
+          <Filter className="h-4 w-4" />
+          <h3 className="text-sm font-medium">Filter by Peak Pressure</h3>
+        </div>
+        <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="min-pressure">Min Pressure (bar)</Label>
+            <Input
+              id="min-pressure"
+              type="number"
+              placeholder="Min"
+              value={minPressure}
+              onChange={handleMinPressureChange}
+              className="w-24"
+              min="0"
+              step="0.1"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="max-pressure">Max Pressure (bar)</Label>
+            <Input
+              id="max-pressure"
+              type="number"
+              placeholder="Max"
+              value={maxPressure}
+              onChange={handleMaxPressureChange}
+              className="w-24"
+              min="0"
+              step="0.1"
+            />
+          </div>
+          <div className="flex items-end">
+            <Button variant="outline" size="sm" onClick={clearFilters}>
+              Clear Filters
+            </Button>
+          </div>
+        </div>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

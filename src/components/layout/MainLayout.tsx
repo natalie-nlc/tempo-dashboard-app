@@ -8,6 +8,8 @@ import {
   Settings,
   Search,
   Bell,
+  Flask,
+  FlaskConical,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -78,7 +80,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               <Link to="/data-explorer">
                 <div className="flex items-center gap-2">
                   <Database className="h-4 w-4" />
-                  <span>Labs</span>
+                  <span>data-explorer</span>
                 </div>
               </Link>
             </Button>
@@ -114,7 +116,26 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     <span>Alerts & Errors</span>
                   </Link>
                 </Button>
+              </div>
+            )}
+          </div>
 
+          <div className="space-y-1">
+            <Button
+              variant={activeSection === "labs" ? "default" : "ghost"}
+              className="w-full justify-start"
+              asChild
+            >
+              <Link to="/labs/dyngg">
+                <div className="flex items-center gap-2">
+                  <FlaskConical className="h-4 w-4" />
+                  <span>Labs</span>
+                </div>
+              </Link>
+            </Button>
+
+            {activeSection === "labs" && (
+              <div className="pl-6 space-y-1">
                 <Button
                   variant={
                     location.pathname === "/labs/dyngg" ? "secondary" : "ghost"

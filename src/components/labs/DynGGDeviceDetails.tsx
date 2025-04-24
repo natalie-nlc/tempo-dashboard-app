@@ -86,12 +86,32 @@ const generateMockPressureData = (
   );
 };
 
+// Import Table components
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 const DynGGDeviceDetails: React.FC = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
   const [device, setDevice] = useState<Device | null>(null);
   const [pressureData, setPressureData] = useState<PressureDataPoint[]>([]);
   const [timeRange, setTimeRange] = useState<TimeRangeValue>("30d");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     if (!deviceId) return;
@@ -299,6 +319,10 @@ const DynGGDeviceDetails: React.FC = () => {
                 {pressureData
                   .slice()
                   .reverse()
+                  .slice(
+                    (currentPage - 1) * itemsPerPage,
+                    currentPage * itemsPerPage,
+                  )
                   .map((shot) => (
                     <TableRow key={shot.shotId}>
                       <TableCell className="font-mono">{shot.shotId}</TableCell>
@@ -327,22 +351,70 @@ const DynGGDeviceDetails: React.FC = () => {
                   ))}
               </TableBody>
             </Table>
+            <div className="flex items-center justify-between px-4 py-2 border-t">
+              <div className="flex items-center space-x-2">
+                <Select
+                  value={itemsPerPage.toString()}
+                  onValueChange={(value) => {
+                    setItemsPerPage(Number(value));
+                    setCurrentPage(1); // Reset to first page when changing items per page
+                  }}
+                >
+                  <SelectTrigger className="w-[100px]">
+                    <SelectValue placeholder="Per page" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-muted-foreground">
+                  Showing{" "}
+                  {Math.min(
+                    (currentPage - 1) * itemsPerPage + 1,
+                    pressureData.length,
+                  )}{" "}
+                  to {Math.min(currentPage * itemsPerPage, pressureData.length)}{" "}
+                  of {pressureData.length} shots
+                </p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setCurrentPage((prev) =>
+                      Math.min(
+                        prev + 1,
+                        Math.ceil(pressureData.length / itemsPerPage),
+                      ),
+                    )
+                  }
+                  disabled={
+                    currentPage >= Math.ceil(pressureData.length / itemsPerPage)
+                  }
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
     </div>
   );
 };
-
-// Import Table components
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 
 export default DynGGDeviceDetails;

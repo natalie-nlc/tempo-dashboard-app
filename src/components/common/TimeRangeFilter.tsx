@@ -17,6 +17,7 @@ export type TimeRangeValue =
   | "3d"
   | "7d"
   | "30d"
+  | "90d"
   | "custom";
 
 interface TimeRangeFilterProps {
@@ -56,6 +57,7 @@ const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
           <SelectItem value="3d">Past 3 days</SelectItem>
           <SelectItem value="7d">Past 7 days</SelectItem>
           <SelectItem value="30d">Past 30 days</SelectItem>
+          <SelectItem value="90d">Past 90 days</SelectItem>
           <SelectItem value="custom">Custom Range...</SelectItem>
         </SelectContent>
       </Select>
