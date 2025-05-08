@@ -8,6 +8,7 @@ import AlertsErrorsPage from "./components/data-explorer/AlertsErrorsPage";
 import MainLayout from "./components/layout/MainLayout";
 import DynGGPage from "./components/labs/DynGGPage";
 import DynGGDeviceDetails from "./components/labs/DynGGDeviceDetails";
+import EngineeringPage from "./components/labs/EngineeringPage";
 import routes from "tempo-routes";
 
 function App() {
@@ -69,6 +70,14 @@ function App() {
             element={
               <MainLayout>
                 <DynGGDeviceDetails />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/labs/engineering"
+            element={
+              <MainLayout>
+                <EngineeringPage />
               </MainLayout>
             }
           />

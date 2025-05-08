@@ -148,6 +148,20 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                     <span>DynGG</span>
                   </Link>
                 </Button>
+                <Button
+                  variant={
+                    location.pathname === "/labs/engineering"
+                      ? "secondary"
+                      : "ghost"
+                  }
+                  size="sm"
+                  className="w-full justify-start"
+                  asChild
+                >
+                  <Link to="/labs/engineering">
+                    <span>Engineering</span>
+                  </Link>
+                </Button>
               </div>
             )}
           </div>
