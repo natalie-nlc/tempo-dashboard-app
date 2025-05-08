@@ -235,8 +235,9 @@ const MachinePerformanceScatter: React.FC<MachinePerformanceScatterProps> = ({
           </CardTitle>
           <CardDescription>
             Machines with high usage and pressure issues are highlighted in
-            orange. The chart is divided into quadrants by median values to help
-            identify outliers.
+            orange. This visual is an example of something we could use to
+            identify whether more usage leads to more performance issues (and at
+            a consitent rate or increasing), and identify specific outliers.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">

@@ -190,7 +190,8 @@ const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           <CardHeader>
             <CardTitle>Roast & Recipe Distribution</CardTitle>
             <CardDescription>
-              Popular roasts and recipes across all devices
+              Helps us see crowd favorites at a glance, to help us curate future
+              roasts & recipes in the future.
             </CardDescription>
           </CardHeader>
           <CardContent className="h-[300px] flex flex-col">

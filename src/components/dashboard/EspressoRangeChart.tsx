@@ -176,8 +176,11 @@ const EspressoRangeChart: React.FC<EspressoRangeChartProps> = ({
         <div>
           <CardTitle>Espresso Shots Distribution</CardTitle>
           <CardDescription>
-            Each bubble shows the number of devices with a specific shot count
-            per day. Larger bubbles indicate more devices using that shot count.
+            Visualizes how many shots are made on how many devices -- looks at
+            how many highly used machines we have vs. how many barely used. This
+            helps us understand how our customer base uses our machines. (Each
+            bubble shows the number of devices with a specific shot count per
+            day. Larger bubbles indicate more devices with that shot count.)
           </CardDescription>
         </div>
         <TimeRangeFilter value={timeRange} onChange={handleTimeRangeChange} />
