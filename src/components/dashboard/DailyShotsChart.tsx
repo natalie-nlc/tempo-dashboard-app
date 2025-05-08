@@ -141,8 +141,8 @@ const DailyShotsChart: React.FC<DailyShotsChartProps> = ({
         <div>
           <CardTitle>Monthly Shots Across Devices</CardTitle>
           <CardDescription>
-            Total number of espresso shots brewed per month across all connected
-            devices
+            Overall growth metric displaying machine usage (need to add months
+            to x axis).
           </CardDescription>
         </div>
       </CardHeader>
